@@ -1,2 +1,2 @@
 # SWE-Minewsweeper
-Minesweeper Lab
+Minesweeper Lab for Software Engineering
