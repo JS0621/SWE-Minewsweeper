@@ -1,1 +1,2 @@
 # SWE-Minewsweeper
+Minesweeper Lab
