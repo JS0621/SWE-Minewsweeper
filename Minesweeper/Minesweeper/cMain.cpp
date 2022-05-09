@@ -3,7 +3,7 @@
 wxBEGIN_EVENT_TABLE(cMain, wxFrame)
 wxEND_EVENT_TABLE()
 
-cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Minesweeper", wxPoint(30,30), wxSize(800,800))
+cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Minesweeper", wxPoint(30, 30), wxSize(800, 800))
 {
 	btn = new wxButton * [nFieldWidth * nFieldHeight];
 	wxGridSizer* grid = new wxGridSizer(nFieldWidth, nFieldHeight, 0, 0);
@@ -12,7 +12,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Minesweeper", wxPoint(30,30), wxSiz
 
 	for (int x = 0; x < nFieldWidth; ++x) {
 		for (int y = 0; y < nFieldHeight; ++y) {
-			btn[y * nFieldWidth + x] = new wxButton(this, 1000 + ( y* nFieldWidth + x));
+			btn[y * nFieldWidth + x] = new wxButton(this, 10000 + (y * nFieldWidth + x));
 			grid->Add(btn[y * nFieldWidth + x], 1, wxEXPAND | wxALL);
 
 			btn[y * nFieldWidth + x]->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &cMain::OnClick, this);
@@ -31,13 +31,13 @@ cMain::~cMain()
 
 void cMain::OnClick(wxCommandEvent& evt)
 {
-	int x = (evt.GetId() - 1000) % nFieldWidth;
-	int y = (evt.GetId() - 1000) / nFieldHeight;
-	
+	int x = (evt.GetId() - 10000) % nFieldWidth;
+	int y = (evt.GetId() - 10000) / nFieldWidth;
+
 	//Generate minefield on first click
 	if (FirstClick) {
 		int mines = 30;
-		
+
 		while (mines) {
 			int rx = rand() % nFieldWidth;
 			int ry = rand() % nFieldHeight;
@@ -49,7 +49,7 @@ void cMain::OnClick(wxCommandEvent& evt)
 		}
 		FirstClick = false;
 	}
-	
+
 	//Disable Button
 	btn[y * nFieldWidth + x]->Enable(false);
 
@@ -73,9 +73,11 @@ void cMain::OnClick(wxCommandEvent& evt)
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 
-				if ((x + i >= 0) && (x + i < nFieldWidth) && (y + j >= 0) && (y + j < nFieldHeight)) {
-					if (mField[(y + j) * nFieldWidth + (x + i) == -1])
+				if (x + i >= 0 && x + 1 < nFieldWidth && y + j >= 0 && y + j < nFieldHeight) {
+					if (mField[(y + j) * nFieldWidth + (x + i)] == -1) {
+
 						mine_count++;
+					}
 				}
 			}
 		}
